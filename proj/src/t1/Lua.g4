@@ -229,6 +229,14 @@ NOME
     ;
 
 // Cadeias simples
+CADEIA_NORMAL
+    : '"' (~('\\'|'"'))* '"'
+    ;
+
+// Cadeia de chars
+CADEIA_CHAR
+    : '\'' (~('\\'|'"'))* '\''
+    ;
 
 // Números inteiros
 INTEGER
@@ -246,8 +254,6 @@ fragment
 Digito
     : [0-9]
     ;
-
-// Comentários
 
 
 

@@ -23,8 +23,8 @@ public class LuaParser extends Parser {
 		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
 		T__31=32, T__32=33, T__33=34, T__34=35, T__35=36, T__36=37, T__37=38, 
 		T__38=39, T__39=40, T__40=41, T__41=42, T__42=43, T__43=44, T__44=45, 
-		T__45=46, T__46=47, T__47=48, T__48=49, NOME=50, INTEGER=51, FLOAT=52, 
-		CADEIA_NORMAL=53, CADEIA_CHAR=54;
+		T__45=46, T__46=47, T__47=48, T__48=49, NOME=50, CADEIA_NORMAL=51, CADEIA_CHAR=52, 
+		INTEGER=53, FLOAT=54;
 	public static final int
 		RULE_programa = 0, RULE_trecho = 1, RULE_bloco = 2, RULE_comando = 3, 
 		RULE_retbreak = 4, RULE_nomedafuncao = 5, RULE_listavar = 6, RULE_listadenomes = 7, 
@@ -57,7 +57,7 @@ public class LuaParser extends Parser {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, "NOME", "INTEGER", "FLOAT", "CADEIA_NORMAL", "CADEIA_CHAR"
+		null, null, "NOME", "CADEIA_NORMAL", "CADEIA_CHAR", "INTEGER", "FLOAT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -566,7 +566,7 @@ public class LuaParser extends Parser {
 				match(T__17);
 				setState(165);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__16) | (1L << T__21) | (1L << T__23) | (1L << T__24) | (1L << T__25) | (1L << T__26) | (1L << T__41) | (1L << T__45) | (1L << T__46) | (1L << T__47) | (1L << NOME) | (1L << INTEGER) | (1L << FLOAT) | (1L << CADEIA_NORMAL) | (1L << CADEIA_CHAR))) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__16) | (1L << T__21) | (1L << T__23) | (1L << T__24) | (1L << T__25) | (1L << T__26) | (1L << T__41) | (1L << T__45) | (1L << T__46) | (1L << T__47) | (1L << NOME) | (1L << CADEIA_NORMAL) | (1L << CADEIA_CHAR) | (1L << INTEGER) | (1L << FLOAT))) != 0)) {
 					{
 					setState(164);
 					listaexp();
@@ -1556,7 +1556,7 @@ public class LuaParser extends Parser {
 				match(T__21);
 				setState(315);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__16) | (1L << T__21) | (1L << T__23) | (1L << T__24) | (1L << T__25) | (1L << T__26) | (1L << T__41) | (1L << T__45) | (1L << T__46) | (1L << T__47) | (1L << NOME) | (1L << INTEGER) | (1L << FLOAT) | (1L << CADEIA_NORMAL) | (1L << CADEIA_CHAR))) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__16) | (1L << T__21) | (1L << T__23) | (1L << T__24) | (1L << T__25) | (1L << T__26) | (1L << T__41) | (1L << T__45) | (1L << T__46) | (1L << T__47) | (1L << NOME) | (1L << CADEIA_NORMAL) | (1L << CADEIA_CHAR) | (1L << INTEGER) | (1L << FLOAT))) != 0)) {
 					{
 					setState(314);
 					listaexp();
@@ -2447,7 +2447,7 @@ public class LuaParser extends Parser {
 		"\30\3\30\3\30\5\30\u0170\n\30\3\31\3\31\3\32\3\32\3\33\3\33\3\34\3\34"+
 		"\3\35\3\35\3\36\3\36\3\37\3\37\3 \3 \3!\3!\3\"\3\"\3#\3#\3#\2\3\26$\2"+
 		"\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BD\2\t"+
-		"\4\2\3\3\17\17\3\2$)\3\2+,\3\2-/\4\2,,\60\62\3\2\65\66\3\2\678\u019f\2"+
+		"\4\2\3\3\17\17\3\2$)\3\2+,\3\2-/\4\2,,\60\62\3\2\678\3\2\65\66\u019f\2"+
 		"F\3\2\2\2\4H\3\2\2\2\6Q\3\2\2\2\b\u00a3\3\2\2\2\n\u00b0\3\2\2\2\f\u00b2"+
 		"\3\2\2\2\16\u00be\3\2\2\2\20\u00c6\3\2\2\2\22\u00ce\3\2\2\2\24\u00dc\3"+
 		"\2\2\2\26\u00f0\3\2\2\2\30\u0116\3\2\2\2\32\u0121\3\2\2\2\34\u0128\3\2"+
