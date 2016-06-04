@@ -28,25 +28,25 @@ public class LuaBaseListener implements LuaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBlock(LuaParser.BlockContext ctx) { }
+	@Override public void enterTrecho(LuaParser.TrechoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBlock(LuaParser.BlockContext ctx) { }
+	@Override public void exitTrecho(LuaParser.TrechoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStat(LuaParser.StatContext ctx) { }
+	@Override public void enterComando(LuaParser.ComandoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStat(LuaParser.StatContext ctx) { }
+	@Override public void exitComando(LuaParser.ComandoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -18,25 +18,25 @@ public interface LuaListener extends ParseTreeListener {
 	 */
 	void exitPrograma(LuaParser.ProgramaContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LuaParser#block}.
+	 * Enter a parse tree produced by {@link LuaParser#trecho}.
 	 * @param ctx the parse tree
 	 */
-	void enterBlock(LuaParser.BlockContext ctx);
+	void enterTrecho(LuaParser.TrechoContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LuaParser#block}.
+	 * Exit a parse tree produced by {@link LuaParser#trecho}.
 	 * @param ctx the parse tree
 	 */
-	void exitBlock(LuaParser.BlockContext ctx);
+	void exitTrecho(LuaParser.TrechoContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LuaParser#stat}.
+	 * Enter a parse tree produced by {@link LuaParser#comando}.
 	 * @param ctx the parse tree
 	 */
-	void enterStat(LuaParser.StatContext ctx);
+	void enterComando(LuaParser.ComandoContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LuaParser#stat}.
+	 * Exit a parse tree produced by {@link LuaParser#comando}.
 	 * @param ctx the parse tree
 	 */
-	void exitStat(LuaParser.StatContext ctx);
+	void exitComando(LuaParser.ComandoContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LuaParser#retstat}.
 	 * @param ctx the parse tree
