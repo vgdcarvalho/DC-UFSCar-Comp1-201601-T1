@@ -18,26 +18,6 @@ public interface LuaListener extends ParseTreeListener {
 	 */
 	void exitPrograma(LuaParser.ProgramaContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LuaParser#trecho}.
-	 * @param ctx the parse tree
-	 */
-	void enterTrecho(LuaParser.TrechoContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#trecho}.
-	 * @param ctx the parse tree
-	 */
-	void exitTrecho(LuaParser.TrechoContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#bloco}.
-	 * @param ctx the parse tree
-	 */
-	void enterBloco(LuaParser.BlocoContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#bloco}.
-	 * @param ctx the parse tree
-	 */
-	void exitBloco(LuaParser.BlocoContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link LuaParser#comando}.
 	 * @param ctx the parse tree
 	 */
@@ -58,6 +38,26 @@ public interface LuaListener extends ParseTreeListener {
 	 */
 	void exitRetbreak(LuaParser.RetbreakContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LuaParser#trecho}.
+	 * @param ctx the parse tree
+	 */
+	void enterTrecho(LuaParser.TrechoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LuaParser#trecho}.
+	 * @param ctx the parse tree
+	 */
+	void exitTrecho(LuaParser.TrechoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LuaParser#bloco}.
+	 * @param ctx the parse tree
+	 */
+	void enterBloco(LuaParser.BlocoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LuaParser#bloco}.
+	 * @param ctx the parse tree
+	 */
+	void exitBloco(LuaParser.BlocoContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LuaParser#nomedafuncao}.
 	 * @param ctx the parse tree
 	 */
@@ -67,16 +67,6 @@ public interface LuaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNomedafuncao(LuaParser.NomedafuncaoContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#listavar}.
-	 * @param ctx the parse tree
-	 */
-	void enterListavar(LuaParser.ListavarContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#listavar}.
-	 * @param ctx the parse tree
-	 */
-	void exitListavar(LuaParser.ListavarContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LuaParser#listadenomes}.
 	 * @param ctx the parse tree
@@ -88,6 +78,16 @@ public interface LuaListener extends ParseTreeListener {
 	 */
 	void exitListadenomes(LuaParser.ListadenomesContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LuaParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void enterExp(LuaParser.ExpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LuaParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void exitExp(LuaParser.ExpContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LuaParser#listaexp}.
 	 * @param ctx the parse tree
 	 */
@@ -97,6 +97,36 @@ public interface LuaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitListaexp(LuaParser.ListaexpContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LuaParser#listavar}.
+	 * @param ctx the parse tree
+	 */
+	void enterListavar(LuaParser.ListavarContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LuaParser#listavar}.
+	 * @param ctx the parse tree
+	 */
+	void exitListavar(LuaParser.ListavarContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LuaParser#expprefixo}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpprefixo(LuaParser.ExpprefixoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LuaParser#expprefixo}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpprefixo(LuaParser.ExpprefixoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LuaParser#complementovar}.
+	 * @param ctx the parse tree
+	 */
+	void enterComplementovar(LuaParser.ComplementovarContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LuaParser#complementovar}.
+	 * @param ctx the parse tree
+	 */
+	void exitComplementovar(LuaParser.ComplementovarContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LuaParser#var}.
 	 * @param ctx the parse tree
@@ -108,36 +138,6 @@ public interface LuaListener extends ParseTreeListener {
 	 */
 	void exitVar(LuaParser.VarContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LuaParser#exp}.
-	 * @param ctx the parse tree
-	 */
-	void enterExp(LuaParser.ExpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#exp}.
-	 * @param ctx the parse tree
-	 */
-	void exitExp(LuaParser.ExpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#varSufixo}.
-	 * @param ctx the parse tree
-	 */
-	void enterVarSufixo(LuaParser.VarSufixoContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#varSufixo}.
-	 * @param ctx the parse tree
-	 */
-	void exitVarSufixo(LuaParser.VarSufixoContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#expPrefixo}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpPrefixo(LuaParser.ExpPrefixoContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#expPrefixo}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpPrefixo(LuaParser.ExpPrefixoContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link LuaParser#chamadadefuncao}.
 	 * @param ctx the parse tree
 	 */
@@ -147,26 +147,6 @@ public interface LuaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitChamadadefuncao(LuaParser.ChamadadefuncaoContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#varOuExp}.
-	 * @param ctx the parse tree
-	 */
-	void enterVarOuExp(LuaParser.VarOuExpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#varOuExp}.
-	 * @param ctx the parse tree
-	 */
-	void exitVarOuExp(LuaParser.VarOuExpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#nomeArgumento}.
-	 * @param ctx the parse tree
-	 */
-	void enterNomeArgumento(LuaParser.NomeArgumentoContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#nomeArgumento}.
-	 * @param ctx the parse tree
-	 */
-	void exitNomeArgumento(LuaParser.NomeArgumentoContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LuaParser#argumentos}.
 	 * @param ctx the parse tree
@@ -208,15 +188,15 @@ public interface LuaListener extends ParseTreeListener {
 	 */
 	void exitListadeparametros(LuaParser.ListadeparametrosContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LuaParser#tabela}.
+	 * Enter a parse tree produced by {@link LuaParser#construtordetabelas}.
 	 * @param ctx the parse tree
 	 */
-	void enterTabela(LuaParser.TabelaContext ctx);
+	void enterConstrutordetabelas(LuaParser.ConstrutordetabelasContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LuaParser#tabela}.
+	 * Exit a parse tree produced by {@link LuaParser#construtordetabelas}.
 	 * @param ctx the parse tree
 	 */
-	void exitTabela(LuaParser.TabelaContext ctx);
+	void exitConstrutordetabelas(LuaParser.ConstrutordetabelasContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LuaParser#listadecampos}.
 	 * @param ctx the parse tree

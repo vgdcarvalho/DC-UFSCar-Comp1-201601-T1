@@ -9,73 +9,59 @@ grammar Lua;
    public static String grupo="551805 e 551945";
 }
 
-// Regra inicial para execução dos testes
+// Regra inicial para execução dos testes.
 programa
     : trecho
     ;
 
-// Trecho de código
-trecho
-    : bloco EOF
-    ;
-
-// Bloco de código
-bloco
-    : (comando ';'?)* (retbreak)?
-    ;
-
-// Comandos possíveis da linguaguem
+// Definição de um comando para a linguaguem Lua.
 comando
-    : listavar '=' listaexp
+    : ';'
+    | listavar '=' listaexp
     | chamadadefuncao
     | 'do' bloco 'end'
     | 'while' exp 'do' bloco 'end'
     | 'repeat' bloco 'until' exp
     | 'if' exp 'then' bloco ('elseif' exp 'then' bloco)* ('else' bloco)? 'end'
-    | 'for' NOME '=' exp ',' exp (',' exp)? 'do' bloco 'end'
+    | 'for' NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); } '=' exp ',' exp (',' exp)? 'do' bloco 'end'
     | 'for' listadenomes 'in' listaexp 'do' bloco 'end'
-    | 'funcion' nomedafuncao corpodafuncao
-    | 'local' 'function' NOME corpodafuncao
+    | 'funcion' nomedafuncao { TabelaDeSimbolos.adicionarSimbolo($nomedafuncao.text,Tipo.FUNCAO); } corpodafuncao
+    | 'local' ('function' NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.FUNCAO); } corpodafuncao)
     | 'local' listadenomes ('=' listaexp)?
     ;
 
-// Comandos de retorno
+// Comandos de retorno.
 retbreak
     : 'return' listaexp? ';'?
     | 'break' ';'?
     ;
 
-// Nome de função
+// Sequência de comandos.
+trecho
+    : (comando ';'?)* (retbreak)?
+    ;
+
+bloco
+    : trecho
+    ;
+
+// Representa o nome de uma função em Lua.
 nomedafuncao
     : NOME ('.' NOME)* (':' NOME)?
     ;
 
-// Lista de variáveis, podendo conter uma ou mais variáveis
-listavar
-    : var (',' var)*
-    ;
-
-// Lista de nomes, podendo conter um ou mais nomes
+// Lista de nomes, podendo conter um ou mais nomes.
+// Representa a lista de nomes separadas por vírgulas.
 listadenomes
-    : NOME (',' NOME)*
+    : NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); } (',' NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); })*
     ;
 
-// Lista de expressões lógicas ou matemáticas, podendo conter uma ou mais expressões
-listaexp
-    : exp (',' exp)*
-    ;
-
-// Variáveis
-var
-    : (NOME | '(' exp ')' varSufixo) varSufixo*
-    ;
-
-// Expressões lógicas ou matemáticas
+// Definição de expressões aritméticas
 exp
     : 'nil' | 'false' | 'true' | numero | cadeia
     | '...'
     | funcao
-    | expPrefixo
+    | expprefixo
     | <assoc=right> exp opPotencia exp
     | opUnario exp
     | exp opMulDivMod exp
@@ -86,71 +72,85 @@ exp
     | exp opLogicoOu exp
     ;
 
-
-//
-varSufixo
-    : nomeArgumento* ('[' exp ']' | '.' NOME)
+// Lista de expressões lógicas ou matemáticas, podendo conter uma ou mais expressões.
+// Representa a lista de expressões separadas por vírgulas.
+listaexp
+    : exp (',' exp)*
     ;
 
-//
-expPrefixo
-    : varOuExp nomeArgumento*
+// Lista de variáveis, podendo conter uma ou mais variáveis.
+// Representa a lista de variáveis separadas por vírgulas.
+listavar
+    : var { TabelaDeSimbolos.adicionarSimbolo($var.text,Tipo.VARIAVEL); } (',' var { TabelaDeSimbolos.adicionarSimbolo($var.text,Tipo.VARIAVEL); })*
     ;
 
-//
+// A regra "expprefixo" como apresentada no manual da linguaguem foi alterada pois
+// apresentava recursão indireta à esquerda, o que não é suportado pelo ANTLR
+expprefixo
+    :  var
+    | chamadadefuncao
+    | '(' exp ')'
+    ;
+
+// Impede a recursão indireta à esquerda.
+complementovar
+    : NOME ('[' exp ']' | '.' NOME)*
+    ;
+
+// Definição de como é identificada uma variável.
+var
+    : NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); }
+    | complementovar '[' exp ']'
+    | complementovar '.' NOME
+    ;
+
+// Define como é reconhecida a chamada à uma função.
 chamadadefuncao
-    : varOuExp nomeArgumento+
+    : complementovar (argumentos | (':'NOME argumentos)) { TabelaDeSimbolos.adicionarSimbolo($complementovar.text,Tipo.FUNCAO); }
     ;
 
-// Uma variável ou expressão lógica ou matemática
-varOuExp
-    : var | '(' exp ')'
-    ;
-
-//
-nomeArgumento
-    : (':' NOME)? argumentos
-    ;
-
-// Argumentos para a chamada de uma função
+// Argumentos para a chamada de uma função.
 argumentos
-    : '(' listaexp? ')' | tabela | cadeia
+    : '(' listaexp? ')'
+    | construtordetabelas
+    | cadeia
     ;
 
-// Definição de funções
+// Representa a definição de uma função.
 funcao
     : 'function' corpodafuncao
     ;
 
-// O corpo da função
+// Representa o corpo de uma função, constituída de:
+// parâmetros entre parênteses (opcional); bloco de comandos e a palavra-chave "end" que delimita o escopo.
 corpodafuncao
-    : '(' listadeparametros ')' bloco 'end'
+    : '(' listadeparametros? ')' bloco 'end' ';'?
     ;
 
-// Lista de parâmetros de uma função sendo definida
+// Lista de parâmetros de uma função sendo definida.
 listadeparametros
     : listadenomes (',' '...')?
     | '...'
     ;
 
-// Uma tabela no modelo {campo1, campo2, campo3}
-tabela
+// Uma tabela no modelo {campo1, campo2, campo3}.
+construtordetabelas
     : '{' listadecampos '}'
     ;
 
-// Lista de campos dentro de uma tabela
+// Lista de campos dentro de uma tabela.
 listadecampos
     : campo (separadordecampos campo)* separadordecampos?
     ;
 
-// O campo de uma tabela
+// O campo de uma tabela propriamente dito.
 campo
     : '[' exp ']' '=' exp
     | NOME '=' exp
     | exp
     ;
 
-// Separador entre campos de uma tabela
+// Separador entre campos de uma tabela.
 separadordecampos
     : ',' | ';'
     ;
@@ -208,32 +208,32 @@ opPotencia
  * TIPOS DE DADOS
  */
 
+// números
 numero
     : INTEGER
     | FLOAT
     ;
 
+// strings
 cadeia
     : CADEIA_NORMAL
     | CADEIA_CHAR
     ;
 
+/**********************************
+        ANALISADOR  LÉXICO
+ *********************************/
 
-/*
- *  LÉXICO
- */
-
-// Nomes não podem começar com números e não podem conter caracteres especiais (além do underline '_')
+// Nomes podem ser qualquer cadeia de letras, dígitos e underlines que não comecem com um dígito
 NOME
-    : [a-zA-Z_][a-zA-Z_0-9]*
+    : (Caracter | '_') (Caracter | Digito | '_')*
     ;
 
-// Cadeias simples
+// Cadeias de caracteres literais podem ser delimitadas por meio do uso de aspas simples ou aspas duplas
 CADEIA_NORMAL
     : '"' (~('\\'|'"'))* '"'
     ;
 
-// Cadeia de chars
 CADEIA_CHAR
     : '\'' (~('\\'|'"'))* '\''
     ;
@@ -252,8 +252,27 @@ FLOAT
 // Digito numérico que só deve ser reconhecido se fizer parte de INTEGER ou FLOAT
 fragment
 Digito
-    : [0-9]
+    : '0'..'9'
     ;
 
+fragment
+Caracter
+    : 'a'..'z'
+    | 'A'..'Z'
+    ;
 
+COMENTARIO
+	: '--' ~('\n' | '\r')* '\r'? '\n'
+	-> skip
+	;
+WS
+    : (' ' | '\t' | '\r' | '\n')
+    -> skip
+    ;
 
+// Caracteres que serão ignorados
+IGNORADOS
+    : (('--' (~('\n'|'\r'))* ('\r')? '\n')
+    | (' ' | '\t' | '\r' | '\n' ))
+    -> skip
+    ;
