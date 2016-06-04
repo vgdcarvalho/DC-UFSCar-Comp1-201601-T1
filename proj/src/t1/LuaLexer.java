@@ -65,7 +65,7 @@ public class LuaLexer extends Lexer {
 	}
 
 
-	   public static String grupo="<<Digite os RAs do grupo aqui>>";
+	   public static String grupo="551805 e 551945";
 
 
 	public LuaLexer(CharStream input) {

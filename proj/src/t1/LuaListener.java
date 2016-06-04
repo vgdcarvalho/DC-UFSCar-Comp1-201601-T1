@@ -8,15 +8,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface LuaListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link LuaParser#chunk}.
+	 * Enter a parse tree produced by {@link LuaParser#programa}.
 	 * @param ctx the parse tree
 	 */
-	void enterChunk(LuaParser.ChunkContext ctx);
+	void enterPrograma(LuaParser.ProgramaContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LuaParser#chunk}.
+	 * Exit a parse tree produced by {@link LuaParser#programa}.
 	 * @param ctx the parse tree
 	 */
-	void exitChunk(LuaParser.ChunkContext ctx);
+	void exitPrograma(LuaParser.ProgramaContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LuaParser#block}.
 	 * @param ctx the parse tree

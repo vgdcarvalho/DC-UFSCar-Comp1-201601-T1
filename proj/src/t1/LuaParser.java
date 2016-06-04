@@ -19,9 +19,9 @@ public class LuaParser extends Parser {
 	public static final int
 		T__0=1, T__1=2;
 	public static final int
-		RULE_chunk = 0, RULE_block = 1, RULE_stat = 2, RULE_retstat = 3;
+		RULE_programa = 0, RULE_block = 1, RULE_stat = 2, RULE_retstat = 3;
 	public static final String[] ruleNames = {
-		"chunk", "block", "stat", "retstat"
+		"programa", "block", "stat", "retstat"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -75,34 +75,34 @@ public class LuaParser extends Parser {
 	public ATN getATN() { return _ATN; }
 
 
-	   public static String grupo="<<Digite os RAs do grupo aqui>>";
+	   public static String grupo="551805 e 551945";
 
 	public LuaParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class ChunkContext extends ParserRuleContext {
+	public static class ProgramaContext extends ParserRuleContext {
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
 		public TerminalNode EOF() { return getToken(LuaParser.EOF, 0); }
-		public ChunkContext(ParserRuleContext parent, int invokingState) {
+		public ProgramaContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_chunk; }
+		@Override public int getRuleIndex() { return RULE_programa; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LuaListener ) ((LuaListener)listener).enterChunk(this);
+			if ( listener instanceof LuaListener ) ((LuaListener)listener).enterPrograma(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LuaListener ) ((LuaListener)listener).exitChunk(this);
+			if ( listener instanceof LuaListener ) ((LuaListener)listener).exitPrograma(this);
 		}
 	}
 
-	public final ChunkContext chunk() throws RecognitionException {
-		ChunkContext _localctx = new ChunkContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_chunk);
+	public final ProgramaContext programa() throws RecognitionException {
+		ProgramaContext _localctx = new ProgramaContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_programa);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{

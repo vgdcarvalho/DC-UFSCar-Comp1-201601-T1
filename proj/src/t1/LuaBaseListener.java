@@ -16,13 +16,13 @@ public class LuaBaseListener implements LuaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterChunk(LuaParser.ChunkContext ctx) { }
+	@Override public void enterPrograma(LuaParser.ProgramaContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitChunk(LuaParser.ChunkContext ctx) { }
+	@Override public void exitPrograma(LuaParser.ProgramaContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

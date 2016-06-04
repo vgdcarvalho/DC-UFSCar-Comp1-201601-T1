@@ -48,6 +48,7 @@ Temporary Items
 
 # Project Static Files
 test/
+proj/.idea
 proj/nbproject
 build.xml
 manifest.mf
