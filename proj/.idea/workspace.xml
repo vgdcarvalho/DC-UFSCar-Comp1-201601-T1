@@ -4,6 +4,7 @@
     <list default="true" id="bec8fe7f-7c8d-4461-98a4-9e92dcd40cbd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/t1/Lua.g4" afterPath="$PROJECT_DIR$/src/t1/Lua.g4" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/t1/Lua.tokens" afterPath="$PROJECT_DIR$/src/t1/Lua.tokens" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/t1/LuaBaseListener.java" afterPath="$PROJECT_DIR$/src/t1/LuaBaseListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/t1/LuaLexer.java" afterPath="$PROJECT_DIR$/src/t1/LuaLexer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/t1/LuaLexer.tokens" afterPath="$PROJECT_DIR$/src/t1/LuaLexer.tokens" />
@@ -71,9 +72,12 @@
       <file leaf-file-name="LuaParser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/t1/LuaParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-              <folding />
+            <state relative-caret-position="595">
+              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+              <folding>
+                <marker date="1465059456205" expanded="false" signature="370:439" placeholder="/all, warnings, unchecked, unused, cast/" />
+                <marker date="1465059456205" expanded="true" signature="488:555" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -130,8 +134,8 @@
       <file leaf-file-name="Lua.g4" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/t1/Lua.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="65">
-              <caret line="135" column="27" selection-start-line="135" selection-start-column="27" selection-end-line="135" selection-end-column="27" />
+            <state relative-caret-position="4165">
+              <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1097,16 +1101,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/t1/LuaParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
+        <state relative-caret-position="595">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding>
+            <marker date="1465059456205" expanded="false" signature="370:439" placeholder="/all, warnings, unchecked, unused, cast/" />
+            <marker date="1465059456205" expanded="true" signature="488:555" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/t1/Lua.g4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
-          <caret line="135" column="27" selection-start-line="135" selection-start-column="27" selection-end-line="135" selection-end-column="27" />
+        <state relative-caret-position="4165">
+          <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
           <folding />
         </state>
       </provider>

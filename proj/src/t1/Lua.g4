@@ -9,22 +9,22 @@ grammar Lua;
    public static String grupo="551805 e 551945";
 }
 
-/* Regra inicial para execução dos testes */
+// Regra inicial para execução dos testes
 programa
     : trecho
     ;
 
-/* Trecho de código*/
+// Trecho de código
 trecho
     : bloco EOF
     ;
 
-/* Bloco de código */
+// Bloco de código
 bloco
     : (comando ';'?)* (retbreak)?
     ;
 
-/* Comandos possíveis da linguaguem */
+// Comandos possíveis da linguaguem
 comando
     : listavar '=' listaexp
     | chamadadefuncao
@@ -39,126 +39,215 @@ comando
     | 'local' listadenomes ('=' listaexp)?
     ;
 
-/* Comandos de retorno */
+// Comandos de retorno
 retbreak
     : 'return' listaexp? ';'?
     | 'break' ';'?
     ;
 
-/* Nome de função */
+// Nome de função
 nomedafuncao
     : NOME ('.' NOME)* (':' NOME)?
     ;
 
-/* Lista de variáveis, podendo conter uma ou mais variáveis */
+// Lista de variáveis, podendo conter uma ou mais variáveis
 listavar
     : var (',' var)*
     ;
 
-/* Lista de nomes, podendo conter um ou mais nomes */
+// Lista de nomes, podendo conter um ou mais nomes
 listadenomes
     : NOME (',' NOME)*
     ;
 
-/* Lista de expressões lógicas ou matemáticas, podendo conter uma ou mais expressões */
+// Lista de expressões lógicas ou matemáticas, podendo conter uma ou mais expressões
 listaexp
     : exp (',' exp)*
     ;
 
-/* Variáveis */
+// Variáveis
 var
     : (NOME | '(' exp ')' varSufixo) varSufixo*
     ;
 
-/* Expressões lógicas ou matemáticas */
+// Expressões lógicas ou matemáticas
 exp
     : 'nil' | 'false' | 'true' | numero | cadeia
-        | '...'
-        | funcao
+    | '...'
+    | funcao
     | expPrefixo
-        | <assoc=right> exp opPotencia exp
-        | opUnario exp
-        | exp opMulDivMod exp
-        | exp opSomaSub exp
-        | <assoc=right> exp opConcat exp
-        | exp opComparacao exp
-        | exp opLogicoE exp
-        | exp opLogicoOu exp
+    | <assoc=right> exp opPotencia exp
+    | opUnario exp
+    | exp opMulDivMod exp
+    | exp opSomaSub exp
+    | <assoc=right> exp opConcat exp
+    | exp opComparacao exp
+    | exp opLogicoE exp
+    | exp opLogicoOu exp
     ;
 
 
-/* */
+//
 varSufixo
     : nomeArgumento* ('[' exp ']' | '.' NOME)
     ;
 
+//
 expPrefixo
     : varOuExp nomeArgumento*
     ;
 
+//
 chamadadefuncao
     : varOuExp nomeArgumento+
     ;
 
-/* Uma variável ou expressão lógica ou matemática */
+// Uma variável ou expressão lógica ou matemática
 varOuExp
     : var | '(' exp ')'
     ;
 
-
+//
 nomeArgumento
     : (':' NOME)? argumentos
     ;
 
-/* Argumentos para a chamada de uma função */
+// Argumentos para a chamada de uma função
 argumentos
     : '(' listaexp? ')' | tabela | cadeia
     ;
 
-/* Definição de funções */
+// Definição de funções
 funcao
     : 'function' corpodafuncao
     ;
 
-/* O corpo da função */
+// O corpo da função
 corpodafuncao
     : '(' listadeparametros ')' bloco 'end'
     ;
 
-/* Lista de parâmetros de uma função sendo definida */
+// Lista de parâmetros de uma função sendo definida
 listadeparametros
     : listadenomes (',' '...')?
     | '...'
     ;
 
-/* Uma tabela no modelo {campo1, campo2, campo3} */
+// Uma tabela no modelo {campo1, campo2, campo3}
 tabela
     : '{' listadecampos '}'
     ;
 
-/* Lista de campos dentro de uma tabela */
+// Lista de campos dentro de uma tabela
 listadecampos
     : campo (separadordecampos campo)* separadordecampos?
     ;
 
-/* O campo de uma tabela */
+// O campo de uma tabela
 campo
     : '[' exp ']' '=' exp
     | NOME '=' exp
     | exp
     ;
 
-/* Separador entre campos de uma tabela */
+// Separador entre campos de uma tabela
 separadordecampos
     : ',' | ';'
     ;
 
 
 /*
- *  LEXER
+ * OPERADORES LÓGICO-MATEMÁTICOS
  */
 
-/* Nomes não podem começar com números e não podem conter caracteres especiais (além do underline '_') */
+// "Ou" lógico
+opLogicoOu
+    : 'or'
+    ;
+
+// "E" lógico
+opLogicoE
+    : 'and'
+    ;
+
+// Comparação
+opComparacao
+    : '<' | '>' | '<=' | '>=' | '~=' | '=='
+    ;
+
+// Concatenação de cadeias
+opConcat
+    : '..'
+    ;
+
+// Soma e Subtração matemática
+opSomaSub
+    : '+' | '-'
+    ;
+
+// Multiplicação, Divisão e Módulo matemático
+opMulDivMod
+    : '*' | '/' | '%'
+    ;
+
+// Operações unárias
+opUnario
+    : 'not'     /* negação lógica*/
+    | '#'       /* tamanho */
+    | '-'       /* negação matemática */
+    | '~'       /* negação bit-a-bit */
+    ;
+
+// Potência matemática
+opPotencia
+    : '^'
+    ;
+
+
+/*
+ * TIPOS DE DADOS
+ */
+
+numero
+    : INTEGER
+    | FLOAT
+    ;
+
+cadeia
+    : CADEIA_NORMAL
+    | CADEIA_CHAR
+    ;
+
+
+/*
+ *  LÉXICO
+ */
+
+// Nomes não podem começar com números e não podem conter caracteres especiais (além do underline '_')
 NOME
     : [a-zA-Z_][a-zA-Z_0-9]*
     ;
+
+// Cadeias simples
+
+// Números inteiros
+INTEGER
+    : Digito+
+    ;
+
+// Números de ponto flutuante
+FLOAT
+    : Digito+ '.' Digito*
+    | '.' Digito+
+    ;
+
+// Digito numérico que só deve ser reconhecido se fizer parte de INTEGER ou FLOAT
+fragment
+Digito
+    : [0-9]
+    ;
+
+// Comentários
+
+
+
