@@ -203,7 +203,7 @@ exp
     | expprefixo
     | construtordetabelas
     | exp operadorBinario exp
-    |operadorUnario exp
+    | operadorUnario exp
     ;
 
 // Lista de expressões lógicas ou matemáticas, podendo conter uma ou mais expressões.

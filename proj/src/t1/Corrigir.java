@@ -1,23 +1,19 @@
 package t1;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringReader;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
+
+import java.io.*;
 
 public class Corrigir {
 
     // Especifique o caminho dos casos de teste.
     // Deve haver dois subdiretorios: entrada e saida
     private final static String CAMINHO_CASOS_TESTE = "D://Projects//GitHub_locals//DC-UFSCar-Comp1-201601-T1//test//orig";
-    
+    //private final static String CAMINHO_CASOS_TESTE = "C://Users//vgdca_000//Documents//GitHub//DC-UFSCar-Comp1-201601-T1//test//orig";
+
+
     // As flags GERA e VERIFICA são de uso do professor
     // GERA = true significa que a saída vai ser gerada, sobrescrevendo qualquer
     // conteudo do subdiretorio saida
