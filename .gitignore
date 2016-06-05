@@ -52,3 +52,5 @@ proj/.idea
 proj/nbproject
 build.xml
 manifest.mf
+/proj/build/
+/proj/dist/
