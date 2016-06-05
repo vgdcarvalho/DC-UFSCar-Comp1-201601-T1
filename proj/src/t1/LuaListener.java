@@ -8,85 +8,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface LuaListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link LuaParser#operadorPotencia}.
+	 * Enter a parse tree produced by {@link LuaParser#operadorBinario}.
 	 * @param ctx the parse tree
 	 */
-	void enterOperadorPotencia(LuaParser.OperadorPotenciaContext ctx);
+	void enterOperadorBinario(LuaParser.OperadorBinarioContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LuaParser#operadorPotencia}.
+	 * Exit a parse tree produced by {@link LuaParser#operadorBinario}.
 	 * @param ctx the parse tree
 	 */
-	void exitOperadorPotencia(LuaParser.OperadorPotenciaContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#operadorSomaSub}.
-	 * @param ctx the parse tree
-	 */
-	void enterOperadorSomaSub(LuaParser.OperadorSomaSubContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#operadorSomaSub}.
-	 * @param ctx the parse tree
-	 */
-	void exitOperadorSomaSub(LuaParser.OperadorSomaSubContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#operadorE}.
-	 * @param ctx the parse tree
-	 */
-	void enterOperadorE(LuaParser.OperadorEContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#operadorE}.
-	 * @param ctx the parse tree
-	 */
-	void exitOperadorE(LuaParser.OperadorEContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#operadorOu}.
-	 * @param ctx the parse tree
-	 */
-	void enterOperadorOu(LuaParser.OperadorOuContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#operadorOu}.
-	 * @param ctx the parse tree
-	 */
-	void exitOperadorOu(LuaParser.OperadorOuContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#operadorRelacional}.
-	 * @param ctx the parse tree
-	 */
-	void enterOperadorRelacional(LuaParser.OperadorRelacionalContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#operadorRelacional}.
-	 * @param ctx the parse tree
-	 */
-	void exitOperadorRelacional(LuaParser.OperadorRelacionalContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#operadorAtribuicao}.
-	 * @param ctx the parse tree
-	 */
-	void enterOperadorAtribuicao(LuaParser.OperadorAtribuicaoContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#operadorAtribuicao}.
-	 * @param ctx the parse tree
-	 */
-	void exitOperadorAtribuicao(LuaParser.OperadorAtribuicaoContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#operadorStrcat}.
-	 * @param ctx the parse tree
-	 */
-	void enterOperadorStrcat(LuaParser.OperadorStrcatContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#operadorStrcat}.
-	 * @param ctx the parse tree
-	 */
-	void exitOperadorStrcat(LuaParser.OperadorStrcatContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#operadorMulDivMod}.
-	 * @param ctx the parse tree
-	 */
-	void enterOperadorMulDivMod(LuaParser.OperadorMulDivModContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#operadorMulDivMod}.
-	 * @param ctx the parse tree
-	 */
-	void exitOperadorMulDivMod(LuaParser.OperadorMulDivModContext ctx);
+	void exitOperadorBinario(LuaParser.OperadorBinarioContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LuaParser#operadorUnario}.
 	 * @param ctx the parse tree
@@ -97,6 +27,16 @@ public interface LuaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitOperadorUnario(LuaParser.OperadorUnarioContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LuaParser#operadorAtribuicao}.
+	 * @param ctx the parse tree
+	 */
+	void enterOperadorAtribuicao(LuaParser.OperadorAtribuicaoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LuaParser#operadorAtribuicao}.
+	 * @param ctx the parse tree
+	 */
+	void exitOperadorAtribuicao(LuaParser.OperadorAtribuicaoContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LuaParser#operadorExtra}.
 	 * @param ctx the parse tree
@@ -178,16 +118,6 @@ public interface LuaListener extends ParseTreeListener {
 	 */
 	void exitListadenomes(LuaParser.ListadenomesContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LuaParser#exp0}.
-	 * @param ctx the parse tree
-	 */
-	void enterExp0(LuaParser.Exp0Context ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#exp0}.
-	 * @param ctx the parse tree
-	 */
-	void exitExp0(LuaParser.Exp0Context ctx);
-	/**
 	 * Enter a parse tree produced by {@link LuaParser#exp}.
 	 * @param ctx the parse tree
 	 */
@@ -197,76 +127,6 @@ public interface LuaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExp(LuaParser.ExpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#exp1}.
-	 * @param ctx the parse tree
-	 */
-	void enterExp1(LuaParser.Exp1Context ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#exp1}.
-	 * @param ctx the parse tree
-	 */
-	void exitExp1(LuaParser.Exp1Context ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#exp2}.
-	 * @param ctx the parse tree
-	 */
-	void enterExp2(LuaParser.Exp2Context ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#exp2}.
-	 * @param ctx the parse tree
-	 */
-	void exitExp2(LuaParser.Exp2Context ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#exp3}.
-	 * @param ctx the parse tree
-	 */
-	void enterExp3(LuaParser.Exp3Context ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#exp3}.
-	 * @param ctx the parse tree
-	 */
-	void exitExp3(LuaParser.Exp3Context ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#exp4}.
-	 * @param ctx the parse tree
-	 */
-	void enterExp4(LuaParser.Exp4Context ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#exp4}.
-	 * @param ctx the parse tree
-	 */
-	void exitExp4(LuaParser.Exp4Context ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#exp5}.
-	 * @param ctx the parse tree
-	 */
-	void enterExp5(LuaParser.Exp5Context ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#exp5}.
-	 * @param ctx the parse tree
-	 */
-	void exitExp5(LuaParser.Exp5Context ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#exp6}.
-	 * @param ctx the parse tree
-	 */
-	void enterExp6(LuaParser.Exp6Context ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#exp6}.
-	 * @param ctx the parse tree
-	 */
-	void exitExp6(LuaParser.Exp6Context ctx);
-	/**
-	 * Enter a parse tree produced by {@link LuaParser#exp7}.
-	 * @param ctx the parse tree
-	 */
-	void enterExp7(LuaParser.Exp7Context ctx);
-	/**
-	 * Exit a parse tree produced by {@link LuaParser#exp7}.
-	 * @param ctx the parse tree
-	 */
-	void exitExp7(LuaParser.Exp7Context ctx);
 	/**
 	 * Enter a parse tree produced by {@link LuaParser#listaexp}.
 	 * @param ctx the parse tree

@@ -1,7 +1,7 @@
 grammar Lua;
 
 @members {
-   public static String grupo="<<551805, 551945>>";
+   public static String grupo="<551805, 551945>";
 }
 
 /**********************************************
@@ -30,8 +30,8 @@ CADEIA_CHAR
     : '\'' (~('\\'|'"'))* '\''
     ;
 
-// Números
-NUMERO
+// Cadeia numérica
+CADEIA_NUMERICA
     : Digito* '.'? Digito+ (Expoente Sinal? Digito+)?   /* número decimal */
     | '0' ('x' | 'X') (Digito | DigitoHexadecimal)*     /* número hexadecimal */
     ;
@@ -100,42 +100,20 @@ PalavraReservada
     ;
 
 // Listagem dos operadores binários da linguagem.
-operadorPotencia
+operadorBinario
     : '^'       /* potência */
-    ;
-
-operadorSomaSub
-    : '+'       /* adição */
+    | '+'       /* adição */
     | '-'       /* subtração */
-    ;
-
-operadorE
-    : 'and'     /* "E" lógico */
-    ;
-
-operadorOu
-    : 'or'      /* "Ou" lógico */
-    ;
-
-operadorRelacional
-    : '<'       /* menor que */
+    | 'and'     /* "E" lógico */
+    | 'or'      /* "Ou" lógico */
+    | '<'       /* menor que */
     | '>'       /* maior que */
     | '<='      /* menor ou igual a */
     | '>='      /* maior ou igual a */
     | '=='      /* igual a */
     | '~='      /* diferente de */
-    ;
-
-operadorAtribuicao
-    : '='       /* atribuição */
-    ;
-
-operadorStrcat
-    : '..'      /* concatenação de cadeias */
-    ;
-
-operadorMulDivMod
-    : '*'       /* multiplicação */
+    | '..'      /* concatenação de cadeias */
+    | '*'       /* multiplicação */
     | '/'       /* divisão */
     | '%'       /* resto de divisão */
     ;
@@ -149,6 +127,10 @@ operadorUnario
     ;
 
 // Listagem dos operadores não aritméticos
+operadorAtribuicao
+    : '='       /* atribuição */
+    ;
+
 operadorExtra
     : '...'
     | '.'
@@ -213,45 +195,15 @@ listadenomes
     : NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); } (',' NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); })*
     ;
 
-// Definição de expressões aritméticas com tratamento de precedência de operadores
-exp0
-    : 'nil' | 'false' | 'true' | NUMERO | cadeia
+// Definição de expressões aritméticas sem tratamento de precedência de operadores
+exp
+    : 'nil' | 'false' | 'true' | CADEIA_NUMERICA | cadeia
     | '...'
     | funcao
     | expprefixo
     | construtordetabelas
-    ;
-
-exp
-    : exp1 (operadorOu exp1)*
-    ;
-
-exp1
-    : exp2 (operadorE exp2)*
-    ;
-
-exp2
-    : exp3 (operadorRelacional exp3)*
-    ;
-
-exp3
-    : exp4 (operadorStrcat exp4)*
-    ;
-
-exp4
-    : exp5 (operadorSomaSub exp5)*
-    ;
-
-exp5
-    : exp6 (operadorMulDivMod exp6)*
-    ;
-
-exp6
-    : (operadorUnario | operadorSomaSub)* exp7
-    ;
-
-exp7
-    : exp0 (operadorPotencia exp0)*
+    | exp operadorBinario exp
+    |operadorUnario exp
     ;
 
 // Lista de expressões lógicas ou matemáticas, podendo conter uma ou mais expressões.

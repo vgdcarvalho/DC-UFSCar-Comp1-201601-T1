@@ -100,20 +100,42 @@ PalavraReservada
     ;
 
 // Listagem dos operadores binários da linguagem.
-operadorBinario
+operadorPotencia
     : '^'       /* potência */
-    | '+'       /* adição */
+    ;
+
+operadorSomaSub
+    : '+'       /* adição */
     | '-'       /* subtração */
-    | 'and'     /* "E" lógico */
-    | 'or'      /* "Ou" lógico */
-    | '<'       /* menor que */
+    ;
+
+operadorE
+    : 'and'     /* "E" lógico */
+    ;
+
+operadorOu
+    : 'or'      /* "Ou" lógico */
+    ;
+
+operadorRelacional
+    : '<'       /* menor que */
     | '>'       /* maior que */
     | '<='      /* menor ou igual a */
     | '>='      /* maior ou igual a */
     | '=='      /* igual a */
     | '~='      /* diferente de */
-    | '..'      /* concatenação de cadeias */
-    | '*'       /* multiplicação */
+    ;
+
+operadorAtribuicao
+    : '='       /* atribuição */
+    ;
+
+operadorStrcat
+    : '..'      /* concatenação de cadeias */
+    ;
+
+operadorMulDivMod
+    : '*'       /* multiplicação */
     | '/'       /* divisão */
     | '%'       /* resto de divisão */
     ;
@@ -127,10 +149,6 @@ operadorUnario
     ;
 
 // Listagem dos operadores não aritméticos
-operadorAtribuicao
-    : '='       /* atribuição */
-    ;
-
 operadorExtra
     : '...'
     | '.'
@@ -195,15 +213,45 @@ listadenomes
     : NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); } (',' NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); })*
     ;
 
-// Definição de expressões aritméticas sem tratamento de precedência de operadores
-exp
+// Definição de expressões aritméticas com tratamento de precedência de operadores
+exp0
     : 'nil' | 'false' | 'true' | CADEIA_NUMERICA | cadeia
     | '...'
     | funcao
     | expprefixo
     | construtordetabelas
-    | exp operadorBinario exp
-    | operadorUnario exp
+    ;
+
+exp
+    : exp1 (operadorOu exp1)*
+    ;
+
+exp1
+    : exp2 (operadorE exp2)*
+    ;
+
+exp2
+    : exp3 (operadorRelacional exp3)*
+    ;
+
+exp3
+    : exp4 (operadorStrcat exp4)*
+    ;
+
+exp4
+    : exp5 (operadorSomaSub exp5)*
+    ;
+
+exp5
+    : exp6 (operadorMulDivMod exp6)*
+    ;
+
+exp6
+    : (operadorUnario | operadorSomaSub)* exp7
+    ;
+
+exp7
+    : exp0 (operadorPotencia exp0)*
     ;
 
 // Lista de expressões lógicas ou matemáticas, podendo conter uma ou mais expressões.

@@ -16,7 +16,7 @@ public class Corrigir {
 
     // Especifique o caminho dos casos de teste.
     // Deve haver dois subdiretorios: entrada e saida
-    private final static String CAMINHO_CASOS_TESTE = "D:\\Projects\\GitHub_locals\\DC-UFSCar-Comp1-201601-T1\\test\\new";
+    private final static String CAMINHO_CASOS_TESTE = "D://Projects//GitHub_locals//DC-UFSCar-Comp1-201601-T1//test//orig";
     
     // As flags GERA e VERIFICA são de uso do professor
     // GERA = true significa que a saída vai ser gerada, sobrescrevendo qualquer
@@ -83,7 +83,7 @@ public class Corrigir {
                 File saidaCasoTeste = new File(CAMINHO_CASOS_TESTE + "/saida/" + casoTeste.getName());
                 FileReader fr = new FileReader(saidaCasoTeste);
                 StringReader sr = new StringReader(out.toString());
-                                
+
                 int charFr = -1;
                 int charSr = -1;
                 boolean passou = true;
