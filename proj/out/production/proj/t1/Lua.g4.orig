@@ -1,0 +1,575 @@
+grammar Lua;
+
+@members {
+   public static String grupo="<<551554, 551872>>";
+}
+
+<<<<<<< HEAD
+palavrasReservadas:
+            'and'       |
+            'break'     |
+            'do'        |
+            'else'      |
+            'elseif'    |
+            'end'       |
+            'false'     |
+            'for'       |
+            'function'  |
+            'if'        |
+            'in'        |
+            'local'     |
+            'nil'       |
+            'not'       |
+            'or'        |
+            'repeat'    |
+            'return'    |
+            'then'      |
+            'true'      |
+            'until'     |
+            'while';
+
+    Ignorados: (('--' (~('\n'|'\r'))* ('\r')? '\n')      |
+               (' '                                      |
+               '\t'                                     |
+               '\r'                                     |
+               '\n'                                     ))-> skip ;
+
+opRel:
+            '=='    |
+            '~='    |
+            '<'     |
+            '>'     |
+            '<='    |
+            '>=';
+
+opArit1:
+            '+'    |
+             '-';
+
+opArit2:
+             '*'    |
+             '/'    |
+             '%';
+
+opUnaria:
+            'not' |
+            '#' |
+            '-';
+
+fragment Letra:
+            'a'..'z'  |
+            'A'..'Z';
+
+fragment Digito:
+            '0'..'9';
+
+fragment Sinal:
+            '+'    |
+             '-';
+
+fragment Exponencial:
+            'e'   |
+            'E';
+
+fragment Hexa:
+            'a'..'f' |
+            'A'..'F';
+
+cadeiaNum:
+            Digito* '.'? Digito+ (Exponencial Sinal? Digito+)? |
+           '0x' (Digito | Hexa)*;
+
+cadeiaCar:
+            ('\'' (~('\''))* '\'') |
+            ('\"' (~('\"'))* '\"');
+
+cadeia:
+            cadeiaNum |
+            cadeiaCar;
+
+Nome:
+            (Letra | '_') (Letra | Digito | '_')*;
+
+separadorDeCampos:
+            ',' |
+            ';';
+
+
+//  -----  Analisador Lexico -----
+//            Gramática
+
+// Regra: programa
+// Definição: Inicio do programa
+
+programa:
+            trecho;
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+// Regra: trecho e bloco
+// Definição: Conjunto de comandos
+
+trecho:
+            (comando ';'?)* (ultimoComando ';'?)?;
+bloco:
+            trecho;
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+// Regra: comando e ultimoComando
+// Definição: Definição de comando para a linguagem Lua
+
+comando:
+            'do' bloco 'end'                |
+            listaDeVar '=' listaExp           |
+            'while' exp 'do' bloco 'end'    |
+            'repeat' bloco 'until' exp      |
+            'if' exp 'then' bloco ('elseif' exp 'then' bloco)* ('else' bloco)? 'end' |
+            'for' Nome { TabelaDeSimbolos.adicionarSimbolo($Nome.text, Tipo.VARIAVEL); } '=' exp ',' exp (',' exp)? 'do' bloco 'end' |
+            'for' listaDeNomes 'in' listaExp 'do' bloco 'end' |
+            'funcion' nomeDaFuncao { TabelaDeSimbolos.adicionarSimbolo($nomeDaFuncao.text, Tipo.FUNCAO); } corpoDaFuncao |
+            'local' ('function' Nome { TabelaDeSimbolos.adicionarSimbolo($Nome.text,Tipo.FUNCAO); } corpoDaFuncao) |
+            'local' listaDeNomes ('=' listaExp)? ;
+
+
+ultimoComando:
+            'return' (listaExp)? |
+            'break';
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+// Regra: expn
+// Definição: Precedência das expressões
+exp:
+            exp1 ('or' exp1)*;
+
+exp1:
+            exp2 ('and' exp2)*;
+
+exp2:
+            exp3 (opRel exp3)*;
+
+exp3:
+            exp4 ('..' exp4)*;
+
+exp4:
+            exp5 (opArit1 exp5)*;
+
+exp5:
+            exp6 (opArit2 exp6)*;
+
+exp6:
+            (opUnaria)* exp7;
+
+exp7:
+            expressao ('ˆ' expressao)*;
+
+// Regra: expressao
+// Definição: Expressões básicas da linguagem Lua
+expressao:
+            expprefixo              |
+            'nil'                   |
+            'false'                 |
+            'true'                  |
+            cadeiaCar               |
+            cadeiaNum               |
+            funcao                  |
+            construtorTabela        |
+            '...';
+/*
+// Regra: expPrefixo
+// Definição: Expressões
+            //*******************************************************************************************
+expPrefixo:
+            var |
+            chamadaDeFuncao |
+            '(' exp ')';
+
+// Regra: var
+// Definição:
+ var:
+            Nome |
+            expPrefixo '[' exp ']' |
+            expPrefixo '.' Nome;
+
+// Regra: chamadaDeFuncao
+// Definição:
+chamadaDeFuncao:
+            expPrefixo args |
+            expPrefixo ':' Nome args;
+            //*******************************************************************************************
+*/
+
+             expprefixo : var | chamadaFuncao | '(' exp ')';
+
+    expprefixo1 :   Nome ( '[' exp ']' | '.' Nome )*;
+
+    /*
+    Nome da regra: var
+    Define como pode ser identificado uma variavel, o linha 252 permite adicionar a tabela de simbolos a variavel.
+    */
+
+    var : Nome
+    { TabelaDeSimbolos.adicionarSimbolo($Nome.text,Tipo.VARIAVEL); }    |
+          expprefixo1 '[' exp ']'                                       |
+          expprefixo1 '.' Nome                                          ;
+
+    /*
+    Nome da regra: chamadaFuncao
+    Define como pode ser chamada uma função. A regra foi reduzida para forma mais simples.
+    */
+
+
+    chamadaFuncao : expprefixo1 (args | (':' Nome args))  { TabelaDeSimbolos.adicionarSimbolo($expprefixo1.text,Tipo.FUNCAO); }   ;
+
+// Regra: args
+// Definição:
+args:
+            '(' (listaExp)? ')'   |
+            construtorTabela      |
+            cadeia;
+
+// Regra: funcao
+// Definição:
+funcao:
+            'function' corpoDaFuncao;
+
+// Regra: corpoDaFuncao
+// Definição:
+corpoDaFuncao:
+            '(' (listaParametros)? ')' bloco 'end';
+
+// Regra: listaParametros
+// Definição:
+listaParametros:
+            listaDeNomes (',' '...')? |
+            '...';
+
+// Regra: construtorTabela
+// Definição:
+construtorTabela:
+            '{' (listaDeCampos)? '}';
+
+// Regra: listaDeCampos
+// Definição:
+listaDeCampos:
+            campo (separadorDeCampos campo)* (separadorDeCampos)?;
+
+// Regra: campo
+// Definição:
+campo:
+            '[' exp ']' '=' exp |
+            Nome '=' exp |
+            exp;
+
+// Regra: listaExp
+// Definição: Lista de expressões separadas por vírgula
+listaExp:
+            (exp ',')* exp;
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+// Regra: nomeDaFuncao
+// Definição:
+nomeDaFuncao:
+            Nome ('.' Nome)* (':' Nome)?;
+
+// Regra: listaDeNomes
+// Definição: Lista de variáveis separados por vírgula
+listaDeNomes:
+            Nome { TabelaDeSimbolos.adicionarSimbolo($Nome.text,Tipo.VARIAVEL); }
+            (',' Nome { TabelaDeSimbolos.adicionarSimbolo($Nome.text,Tipo.VARIAVEL); })*;
+
+// Regra: listaDeVar
+// Definição:
+listaDeVar:
+            var (',' var)*;
+// --------------------------------------------------------------------------------------------------------------------------------------
+=======
+/**********************************************
+    LEXER
+    Definição dos lexemas da linguagem Lua.
+ **********************************************/
+
+// Nomes podem ser qualquer cadeia de letras, dígitos e underlines que não comecem com um dígito.
+NOME
+    : (Caracter | '_') (Caracter | Digito | '_')*
+    ;
+
+// Letras
+fragment
+Caracter
+    : 'a'..'z'
+    | 'A'..'Z'
+    ;
+
+// Cadeias de caracteres literais podem ser delimitadas por meio do uso de aspas simples ou aspas duplas.
+CADEIA_NORMAL
+    : '"' (~('\\'|'"'))* '"'
+    ;
+
+CADEIA_CHAR
+    : '\'' (~('\\'|'"'))* '\''
+    ;
+
+// Cadeia numérica
+CADEIA_NUMERICA
+    : Digito* '.'? Digito+ (Expoente Sinal? Digito+)?   /* número decimal */
+    | '0' ('x' | 'X') (Digito | DigitoHexadecimal)*     /* número hexadecimal */
+    ;
+
+// Digito Decimal
+fragment
+Digito
+    : '0'..'9'
+    ;
+
+// Digito Hexadecimal
+fragment
+DigitoHexadecimal
+    : 'a'..'f'
+    | 'A'..'F'
+    ;
+
+// Sinal
+fragment
+Sinal
+    : '+'
+    | '-'
+    ;
+
+// Expoente de um número decimal
+fragment
+Expoente
+    : 'e'
+    | 'E'
+    ;
+
+// Comentarios e espaços em branco devem ser ignorados.
+COMENTARIO
+	: '--' ~('\n' | '\r')* '\r'? '\n'
+	-> skip
+	;
+
+WS
+    : (' ' | '\t' | '\r' | '\n')
+    -> skip
+    ;
+
+// Palavras reservadas pela linguagem.
+PalavraReservada
+    : 'and'
+    | 'end'
+    | 'in'
+    | 'break'
+    | 'false'
+    | 'local'
+    | 'do'
+    | 'for'
+    | 'nil'
+    | 'else'
+    | 'function'
+    | 'not'
+    | 'elseif'
+    | 'if'
+    | 'or'
+    | 'repeat'
+    | 'return'
+    | 'then'
+    | 'true'
+    | 'until'
+    | 'while'
+    ;
+
+// Listagem dos operadores binários da linguagem.
+operadorBinario
+    : '^'       /* potência */
+    | '+'       /* adição */
+    | '-'       /* subtração */
+    | 'and'     /* "E" lógico */
+    | 'or'      /* "Ou" lógico */
+    | '<'       /* menor que */
+    | '>'       /* maior que */
+    | '<='      /* menor ou igual a */
+    | '>='      /* maior ou igual a */
+    | '=='      /* igual a */
+    | '~='      /* diferente de */
+    | '..'      /* concatenação de cadeias */
+    | '*'       /* multiplicação */
+    | '/'       /* divisão */
+    | '%'       /* resto de divisão */
+    ;
+
+// Listagem dos operadores unários da linguagem.
+operadorUnario
+    : 'not'     /* negação lógica*/
+    | '#'       /* tamanho */
+    | '-'       /* negação matemática */
+    | '~'       /* negação bit-a-bit */
+    ;
+
+// Listagem dos operadores não aritméticos
+operadorAtribuicao
+    : '='       /* atribuição */
+    ;
+
+operadorExtra
+    : '...'
+    | '.'
+    | ','
+    | '['
+    | ']'
+    | '('
+    | ')'
+    | '{'
+    | '}'
+    | ':'
+    | ';'
+    ;
+
+/**********************************
+              PARSER
+ *********************************/
+
+// Regra inicial para execução dos testes.
+programa
+    : trecho
+    ;
+
+// Definição de um comando para a linguaguem Lua.
+comando
+    : listavar operadorAtribuicao listaexp
+    | chamadadefuncao
+    | 'do' bloco 'end'
+    | 'while' exp 'do' bloco 'end'
+    | 'repeat' bloco 'until' exp
+    | 'if' exp 'then' bloco ('elseif' exp 'then' bloco)* ('else' bloco)? 'end'
+    | 'for' NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); } operadorAtribuicao exp ',' exp (',' exp)? 'do' bloco 'end'
+    | 'for' listadenomes 'in' listaexp 'do' bloco 'end'
+    | 'function' nomedafuncao { TabelaDeSimbolos.adicionarSimbolo($nomedafuncao.text,Tipo.FUNCAO); } corpodafuncao
+    | 'local' ('function' NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.FUNCAO); } corpodafuncao)
+    | 'local' listadenomes (operadorAtribuicao listaexp)?
+    ;
+
+// Comandos de retorno.
+retbreak
+    : 'return' listaexp?
+    | 'break'
+    ;
+
+// Sequência de comandos.
+trecho
+    : (comando ';'?)* (retbreak ';'?)?
+    ;
+
+bloco
+    : trecho
+    ;
+
+// Representa o nome de uma função em Lua.
+nomedafuncao
+    : NOME ('.' NOME)* (':' NOME)?
+    ;
+
+// Lista de nomes, podendo conter um ou mais nomes.
+// Representa a lista de nomes separadas por vírgulas.
+listadenomes
+    : NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); } (',' NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); })*
+    ;
+
+// Definição de expressões aritméticas sem tratamento de precedência de operadores
+exp
+    : 'nil' | 'false' | 'true' | CADEIA_NUMERICA | cadeia
+    | '...'
+    | funcao
+    | expprefixo
+    | construtordetabelas
+    | exp operadorBinario exp
+    | operadorUnario exp
+    ;
+
+// Lista de expressões lógicas ou matemáticas, podendo conter uma ou mais expressões.
+// Representa a lista de expressões separadas por vírgulas.
+listaexp
+    : (exp ',')* exp
+    ;
+
+// Lista de variáveis, podendo conter uma ou mais variáveis.
+// Representa a lista de variáveis separadas por vírgulas.
+listavar
+    : var { TabelaDeSimbolos.adicionarSimbolo($var.text,Tipo.VARIAVEL); } (',' var { TabelaDeSimbolos.adicionarSimbolo($var.text,Tipo.VARIAVEL); })*
+    ;
+
+// A regra "expprefixo" como apresentada no manual da linguaguem foi alterada pois
+// apresentava recursão indireta à esquerda, o que não é suportado pelo ANTLR
+expprefixo
+    :  var
+    | chamadadefuncao
+    | '(' exp ')'
+    ;
+
+// Impede a recursão indireta à esquerda.
+complementovar
+    : NOME ('[' exp ']' | '.' NOME)*
+    ;
+
+// Definição de como é identificada uma variável.
+var
+    : NOME { TabelaDeSimbolos.adicionarSimbolo($NOME.text,Tipo.VARIAVEL); }
+    | complementovar '[' exp ']'
+    | complementovar '.' NOME
+    ;
+
+// Define como é reconhecida a chamada à uma função.
+chamadadefuncao
+    : complementovar (argumentos | (':' NOME argumentos)) { TabelaDeSimbolos.adicionarSimbolo($complementovar.text,Tipo.FUNCAO); }
+    ;
+
+// Argumentos para a chamada de uma função.
+argumentos
+    : '(' listaexp? ')'
+    | construtordetabelas
+    | cadeia
+    ;
+
+// Representa a definição de uma função.
+funcao
+    : 'function' corpodafuncao
+    ;
+
+// Representa o corpo de uma função, constituída de:
+// parâmetros entre parênteses (opcional); bloco de comandos e a palavra-chave "end" que delimita o escopo.
+corpodafuncao
+    : '(' listadeparametros? ')' bloco 'end'
+    ;
+
+// Lista de parâmetros de uma função sendo definida.
+listadeparametros
+    : listadenomes (',' '...')?
+    | '...'
+    ;
+
+// Uma tabela no modelo {campo1, campo2, campo3}.
+construtordetabelas
+    : '{' listadecampos? '}'
+    ;
+
+// Lista de campos dentro de uma tabela.
+listadecampos
+    : campo (separadordecampos campo)* separadordecampos?
+    ;
+
+// O campo de uma tabela propriamente dito.
+campo
+    : '[' exp ']' operadorAtribuicao exp
+    | NOME operadorAtribuicao exp
+    | exp
+    ;
+
+// Separador entre campos de uma tabela.
+separadordecampos
+    : ',' | ';'
+    ;
+
+// strings
+cadeia
+    : CADEIA_NORMAL
+    | CADEIA_CHAR
+    ;
+>>>>>>> 05bde7bbf5131f1d217cc4466de567318a23e6be
